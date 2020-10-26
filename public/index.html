@@ -31,6 +31,9 @@ limitations under the License.
   <script src="/__/firebase/7.23.0/firebase-auth.js"></script>
   <script src="/__/firebase/init.js"></script>
 
+  <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-firestore.js"></script>
+
+
   <script type="text/javascript">
 
     /**
@@ -190,6 +193,22 @@ limitations under the License.
       document.getElementById('quickstart-sign-up').addEventListener('click', handleSignUp, false);
       document.getElementById('quickstart-verify-email').addEventListener('click', sendEmailVerification, false);
       document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset, false);
+      document.getElementById('send_chat').addEventListener('click', chat, false);
+    }
+
+    function chat () {
+      chat_input = document.getElementById('input').value
+      console.log(chat_input)
+      var db = firebase.firestore();
+      db.collection("translations").add({
+          input: chat_input
+      })
+      .then(function(docRef) {
+          console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+          console.error("Error adding document: ", error);
+      });
     }
 
     window.onload = function() {
@@ -204,7 +223,7 @@ limitations under the License.
   <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
     <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
       <div class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--8-col-desktop">
-        <a href="/"><h3>Firebase Authentication</h3></a>
+        <a href="/"><h3>Ian's Firebase Testing</h3></a>
       </div>
     </div>
   </header>
@@ -233,14 +252,15 @@ limitations under the License.
           <button class="mdl-button mdl-js-button mdl-button--raised" id="quickstart-password-reset" name="verify-email">Send Password Reset Email</button>
 
           <div class="translate_title mdl-color--light-blue-600 mdl-color-text--white">
-            <h2 class="title-text">Text Translation</h2>
+            <h2 class="title-text">Chat</h2>
           </div>
 
           <div class="translate mdl-color-text--grey-600">
-            <p>Enter text to translate</p>
-  
+            <p>Enter chat message</p>
+
             <input class="translate_input" style="display:inline;width:auto;" type="text" id="input" name="input" placeholder="input"/>
             &nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-button--raised"  id="send_chat" name="send_chat">Send Chat</button>
             <br/><br/>
             <br/><br/>
             <br/><br/>
@@ -252,7 +272,7 @@ limitations under the License.
             Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
             <div>Firebase auth <code>currentUser</code> object value:</div>
             <pre><code id="quickstart-account-details">null</code></pre>
-          </div> 
+          </div>
         </div>
       </div>
 
